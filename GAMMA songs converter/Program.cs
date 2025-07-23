@@ -68,6 +68,7 @@ class Program
         }    
 
         Console.WriteLine($"Converted {i} songs");
+        Console.WriteLine("Press any button to continue...");
         Console.ReadLine();
     }
     static string FormatFileName(string originalName)
