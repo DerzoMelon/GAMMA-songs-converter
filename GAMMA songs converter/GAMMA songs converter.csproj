@@ -12,6 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -22,10 +23,11 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
+    <AutorunEnabled>true</AutorunEnabled>
+    <ApplicationRevision>2</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -49,6 +51,18 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>AF2C943FDC40D76403F62E4D150B82A6D4498866</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>GAMMA songs converter_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Win32.Registry, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -95,6 +109,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="audioConverter\batch-example.bat" />
+    <None Include="audioConverter\sox.pdf" />
+    <None Include="audioConverter\soxformat.pdf" />
+    <None Include="audioConverter\soxi.pdf" />
+    <None Include="audioConverter\wget.ini" />
+    <None Include="GAMMA songs converter_TemporaryKey.pfx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -108,6 +128,30 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="audioConverter\ChangeLog.txt" />
+    <Content Include="audioConverter\libflac-8.dll" />
+    <Content Include="audioConverter\libgcc_s_sjlj-1.dll" />
+    <Content Include="audioConverter\libgomp-1.dll" />
+    <Content Include="audioConverter\libid3tag-0.dll" />
+    <Content Include="audioConverter\libmad-0.dll" />
+    <Content Include="audioConverter\libmp3lame-0.dll" />
+    <Content Include="audioConverter\libogg-0.dll" />
+    <Content Include="audioConverter\libpng16-16.dll" />
+    <Content Include="audioConverter\libsox-3.dll" />
+    <Content Include="audioConverter\libssp-0.dll" />
+    <Content Include="audioConverter\libvorbis-0.dll" />
+    <Content Include="audioConverter\libvorbisenc-2.dll" />
+    <Content Include="audioConverter\libvorbisfile-3.dll" />
+    <Content Include="audioConverter\libwavpack-1.dll" />
+    <Content Include="audioConverter\libwinpthread-1.dll" />
+    <Content Include="audioConverter\LICENSE.GPL.txt" />
+    <Content Include="audioConverter\README.txt" />
+    <Content Include="audioConverter\README.win32.txt" />
+    <Content Include="audioConverter\sox.exe" />
+    <Content Include="audioConverter\wget.exe" />
+    <Content Include="audioConverter\zlib1.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
