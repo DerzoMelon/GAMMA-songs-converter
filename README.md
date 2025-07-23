@@ -2,7 +2,7 @@
 
 The game uses the .ogg format to record music. You can view the composition by going to the MO2 launcher browser in the direction gamedata\sounds\radio. By right-clicking and selecting "Show in Explorer", you can open this path in the direction.
 
-### This program is only needed for convenience. To install many songs and not convert and rename each one. It's scary to imagine if you need to download more than 30 songs without it.
+### This program is only needed for convenience. To install many songs and not convert and rename each one. It's scary to imagine if you need to download more than 30 songs without it. All it does is convert songs from .mp3 to .ogg and rename them to the game format. You can do it manually.
 
 ### How to add your own music
 
@@ -17,7 +17,7 @@ The game uses the .ogg format to record music. You can view the composition by g
 
 Игра использует формат .ogg для записи музыки. Вы можете просмотреть композицию, перейдя в браузер лаунчера MO2 по пути gamedata\sounds\radio. Щёлкнув правой кнопкой мыши и выбрав «Показать в проводнике».
 
-### Эта программа нужна только для удобства. Чтобы загружать много песен и не конвертировать и не переименовывать каждую. Страшно представить если понадобится загружать больше 30 песен без нее.
+### Эта программа нужна только для удобства. Чтобы загружать много песен и не конвертировать и не переименовывать каждую. Страшно представить если понадобится загружать больше 30 песен без нее. Все что она делает это только конвертируюет песни из .mp3 в .ogg и переименовывает их под формат игры. Вы можете это сделать вручную.
 
 ### Как добавить свою музыку
 
