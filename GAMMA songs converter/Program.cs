@@ -42,16 +42,17 @@ class Program
         Console.WriteLine($"Input folder: {inputFolder}");
         Console.WriteLine($"Output folder: {outputFolder}");
 
+        int i = 0;
         try
         {
-            int i = 0;
+            
             foreach (string mp3File in Directory.GetFiles(inputFolder, "*.mp3"))
             {
                 string cleanName = FormatFileName(TR(Path.GetFileNameWithoutExtension(mp3File)));
                 string oggFile = Path.Combine(outputFolder, cleanName + ".ogg");
 
                 ConvertMp3ToOgg(mp3File, oggFile);
-                Console.WriteLine($"{++i}. Конвертировано: {Path.GetFileName(mp3File)} => {cleanName}.ogg");
+                Console.WriteLine($"{++i}. Converted: {Path.GetFileName(mp3File)} => {cleanName}.ogg");
             }
 
             Console.WriteLine("Done!");
@@ -64,7 +65,10 @@ class Program
         {
             Console.WriteLine(ex.Message);
             Console.WriteLine(ex.ToString());
-        }       
+        }    
+
+        Console.WriteLine($"Converted {i} songs");
+        Console.ReadLine();
     }
     static string FormatFileName(string originalName)
     {
