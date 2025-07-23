@@ -6,6 +6,83 @@ using System.Windows.Forms;
 
 class Program
 {
+    static string SelectFolder(string description)
+    {
+        var dialog = new FolderBrowserDialog
+        {
+            Description = description,
+            ShowNewFolderButton = true
+        };
+
+        return dialog.ShowDialog() == DialogResult.OK ? dialog.SelectedPath : null;
+    }
+
+    [STAThread]
+    static void Main(string[] args)
+    {
+        var inputFolder = SelectFolder("Select folder with compositions:");
+
+        if (string.IsNullOrEmpty(inputFolder))
+        {
+            Console.WriteLine("Folder selection is canceled. The default folder is used.");
+            inputFolder = @"input";
+        }
+
+        var outputFolder = SelectFolder("select folder for ogg files:");
+
+        if (string.IsNullOrEmpty(outputFolder))
+        {
+            Console.WriteLine("Folder selection is canceled. The default folder is used.");
+            outputFolder = @"output";
+        }
+
+        if (!Directory.Exists(outputFolder))
+            Directory.CreateDirectory(outputFolder);
+
+        Console.WriteLine($"Input folder: {inputFolder}");
+        Console.WriteLine($"Output folder: {outputFolder}");
+
+        try
+        {
+            int i = 0;
+            foreach (string mp3File in Directory.GetFiles(inputFolder, "*.mp3"))
+            {
+                string cleanName = FormatFileName(TR(Path.GetFileNameWithoutExtension(mp3File)));
+                string oggFile = Path.Combine(outputFolder, cleanName + ".ogg");
+
+                ConvertMp3ToOgg(mp3File, oggFile);
+                Console.WriteLine($"{++i}. Конвертировано: {Path.GetFileName(mp3File)} => {cleanName}.ogg");
+            }
+
+            Console.WriteLine("Done!");
+        }
+        catch (DirectoryNotFoundException ex) {
+            Console.WriteLine(ex.Message);
+            Console.WriteLine("No folder with compositions is selected and there is no \"input\" folder in the program root. Create an \"input\" folder in the program folder or select another one.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            Console.WriteLine(ex.ToString());
+        }       
+    }
+    static string FormatFileName(string originalName)
+    {
+        string cleaned = Regex.Replace(originalName, @"\s*\(.*?\)", "");
+
+        cleaned = cleaned.Replace(" ", "_");
+
+        cleaned = Regex.Replace(cleaned, @"_+", "_");
+
+        return cleaned.Trim('_');
+    }
+    static void ConvertMp3ToOgg(string mp3File, string oggFile)
+    {
+        using (var sox = new Sox("audioConverter\\sox.exe"))
+        {
+            sox.Process(mp3File, oggFile);
+        }
+    }
     private static string TR(string str)
     {
         str = str.Replace("а", "a");
@@ -75,83 +152,5 @@ class Program
         str = str.Replace("ъ", "");
         str = str.Replace("Ъ", "");
         return str;
-    }
-    static string SelectFolder(string description)
-    {
-        var dialog = new FolderBrowserDialog
-        {
-            Description = description,
-            ShowNewFolderButton = true
-        };
-
-        return dialog.ShowDialog() == DialogResult.OK ? dialog.SelectedPath : null;
-    }
-
-    [STAThread]
-    static void Main(string[] args)
-    {
-        var inputFolder = SelectFolder("Select folder with compositions:");
-
-        if (string.IsNullOrEmpty(inputFolder))
-        {
-            Console.WriteLine("Folder selection is canceled. The default folder is used.");
-            inputFolder = @"input";
-        }
-
-        var outputFolder = SelectFolder("select folder for ogg files:");
-
-        if (string.IsNullOrEmpty(outputFolder))
-        {
-            Console.WriteLine("Folder selection is canceled. The default folder is used.");
-            outputFolder = @"output";
-        }
-
-        if (!Directory.Exists(outputFolder))
-            Directory.CreateDirectory(outputFolder);
-
-        Console.WriteLine($"Input folder: {inputFolder}");
-        Console.WriteLine($"Output folder: {outputFolder}");
-
-        try
-        {
-            int i = 0;
-            foreach (string mp3File in Directory.GetFiles(inputFolder, "*.mp3"))
-            {
-                string cleanName = FormatFileName(TR(Path.GetFileNameWithoutExtension(mp3File)));
-                string oggFile = Path.Combine(outputFolder, cleanName + ".ogg");
-
-                ConvertMp3ToOgg(mp3File, oggFile);
-                Console.WriteLine($"{++i}. Конвертировано: {Path.GetFileName(mp3File)} => {cleanName}.ogg");
-            }
-
-            Console.WriteLine("Done!");
-        }
-        catch (DirectoryNotFoundException ex) {
-            Console.WriteLine("No folder with compositions is selected and there is no \"input\" folder in the program root. Create an \"input\" folder in the program folder or select another one.");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.ToString());
-        }       
-        
-
-        
-    }
-    static string FormatFileName(string originalName)
-    {
-        string cleaned = Regex.Replace(originalName, @"\s*\(.*?\)", "");
-
-        cleaned = cleaned.Replace(" ", "_");
-
-        cleaned = Regex.Replace(cleaned, @"_+", "_");
-
-        return cleaned.Trim('_');
-    }
-    static void ConvertMp3ToOgg(string mp3File, string oggFile)
-    {
-        using (var sox = new Sox("audioConverter\\sox.exe"))
-        {
-            sox.Process(mp3File, oggFile);
-        }
     }
 }
