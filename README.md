@@ -1,4 +1,4 @@
-## How to add your music to the S.T.A.L.K.E.R Anomaly GAMMA playlist
+## How to add your music to the PDA S.T.A.L.K.E.R Anomaly GAMMA
 
 The game uses the .ogg format to record music. You can view the composition by going to the MO2 launcher browser in the direction gamedata\sounds\radio. By right-clicking and selecting "Show in Explorer", you can open this path in the direction.
 
@@ -13,7 +13,7 @@ The game uses the .ogg format to record music. You can view the composition by g
 5. First, select the folder with your compositions (in the example, "input" is used). Then select the path where you want to download the converted tracks.
 6. Move the converted .ogg files to the GAMMA\mods\12- PDA Radio Extended - Starcry_\gamedata\sounds\radio\_playlist_2 folder. You can open it by right-clicking in the MO2 launcher browser and selecting "Show in Explorer".
 
-## Как добавить свою музыку в плейлист S.T.A.L.K.E.R. Anomaly GAMMA
+## Как добавить свою музыку в PDA S.T.A.L.K.E.R. Anomaly GAMMA
 
 Игра использует формат .ogg для записи музыки. Вы можете просмотреть композицию, перейдя в браузер лаунчера MO2 по пути gamedata\sounds\radio. Щёлкнув правой кнопкой мыши и выбрав «Показать в проводнике».
 
