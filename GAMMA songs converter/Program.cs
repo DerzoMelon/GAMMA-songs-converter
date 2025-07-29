@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 class Program
@@ -69,7 +70,7 @@ class Program
 
         Console.WriteLine($"Converted {i} songs");
         Console.WriteLine("Press any button to continue...");
-        Console.ReadLine();
+        Console.ReadKey();
     }
     static string FormatFileName(string originalName)
     {
@@ -81,12 +82,15 @@ class Program
 
         return cleaned.Trim('_');
     }
-    static void ConvertMp3ToOgg(string mp3File, string oggFile)
+    static async Task ConvertMp3ToOgg(string mp3File, string oggFile)
     {
-        using (var sox = new Sox("audioConverter\\sox.exe"))
+        await Task.Run(() =>
         {
-            sox.Process(mp3File, oggFile);
-        }
+            using (var sox = new Sox("audioConverter\\sox.exe"))
+            {
+                sox.Process(mp3File, oggFile);
+            }
+        });
     }
     private static string TR(string str)
     {
@@ -156,6 +160,7 @@ class Program
         str = str.Replace("Ь", "");
         str = str.Replace("ъ", "");
         str = str.Replace("Ъ", "");
+        str = str.Replace("ö", "o");
         return str;
     }
 }
