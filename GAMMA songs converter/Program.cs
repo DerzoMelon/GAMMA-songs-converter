@@ -2,24 +2,39 @@
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 class Program
 {
+    static int i = 0;
     static string SelectFolder(string description)
     {
-        var dialog = new FolderBrowserDialog
+        string selectedPath = null;
+        var thread = new Thread(() =>
         {
-            Description = description,
-            ShowNewFolderButton = true
-        };
+            var dialog = new FolderBrowserDialog
+            {
+                Description = description,
+                ShowNewFolderButton = true
+            };
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                selectedPath = dialog.SelectedPath;
+            }
+        });
 
-        return dialog.ShowDialog() == DialogResult.OK ? dialog.SelectedPath : null;
+        thread.SetApartmentState(ApartmentState.STA);
+        thread.Start();
+        thread.Join();
+
+        return selectedPath;
     }
 
     [STAThread]
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
         var inputFolder = SelectFolder("Select folder with compositions:");
 
@@ -43,22 +58,32 @@ class Program
         Console.WriteLine($"Input folder: {inputFolder}");
         Console.WriteLine($"Output folder: {outputFolder}");
 
-        int i = 0;
+        await Convert(inputFolder, outputFolder);
+
+        Console.WriteLine("Done!");
+        Console.WriteLine($"Converted {i} songs");
+        Console.WriteLine("Press any button to continue...");
+        Console.ReadKey();
+
+    }
+    static async Task Convert(string inputFolder, string outputFolder)
+    {
         try
         {
-            
+            var tasks = new List<Task>();
+
             foreach (string mp3File in Directory.GetFiles(inputFolder, "*.mp3"))
             {
                 string cleanName = FormatFileName(TR(Path.GetFileNameWithoutExtension(mp3File)));
                 string oggFile = Path.Combine(outputFolder, cleanName + ".ogg");
 
-                ConvertMp3ToOgg(mp3File, oggFile);
-                Console.WriteLine($"{++i}. Converted: {Path.GetFileName(mp3File)} => {cleanName}.ogg");
+                tasks.Add(ConvertMp3ToOgg(mp3File, oggFile, cleanName));
             }
 
-            Console.WriteLine("Done!");
+            await Task.WhenAll(tasks);
         }
-        catch (DirectoryNotFoundException ex) {
+        catch (DirectoryNotFoundException ex)
+        {
             Console.WriteLine(ex.Message);
             Console.WriteLine("No folder with compositions is selected and there is no \"input\" folder in the program root. Create an \"input\" folder in the program folder or select another one.");
         }
@@ -66,11 +91,7 @@ class Program
         {
             Console.WriteLine(ex.Message);
             Console.WriteLine(ex.ToString());
-        }    
-
-        Console.WriteLine($"Converted {i} songs");
-        Console.WriteLine("Press any button to continue...");
-        Console.ReadKey();
+        }
     }
     static string FormatFileName(string originalName)
     {
@@ -82,7 +103,7 @@ class Program
 
         return cleaned.Trim('_');
     }
-    static async Task ConvertMp3ToOgg(string mp3File, string oggFile)
+    static async Task ConvertMp3ToOgg(string mp3File, string oggFile, string cleanName)
     {
         await Task.Run(() =>
         {
@@ -90,6 +111,7 @@ class Program
             {
                 sox.Process(mp3File, oggFile);
             }
+            Console.WriteLine($"{++i}. Converted: {Path.GetFileName(mp3File)} => {cleanName}.ogg");
         });
     }
     private static string TR(string str)
